@@ -1,0 +1,61 @@
+body {
+    background-color: #1a1a2e;
+    font-family: Arial;
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+h1 {
+    font-size: 40px;
+    color: plum;
+}
+.galerie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+.galerie img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid plum;
+    transition: all 0.3s ease;
+}
+.galerie img:hover {
+    border: 3px solid white;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px plum;
+    cursor: pointer;
+}
+.bild-container {
+    text-align: center;
+}
+
+.bild-container p {
+    color: plum;
+    font-size: 16px;
+    margin-top: 8px;
+    font-weight: bold;
+}
+#lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 15px;
+    border: 3px solid plum;
+}
