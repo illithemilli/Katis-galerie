@@ -2,6 +2,9 @@
 <html>
     <head>
         <title>Katis Galerie</title>
+        <!-- viewport sagt dem Handy: nutze die echte Bildschirmbreite -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400&display=swap">
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
@@ -11,49 +14,64 @@
         <div class="galerie">
         <div class="bild-container">
             <img src="images/IMG-20241008-WA0011.jpg" alt="Bild 1" onclick="bildOeffnen(this.src)">
-            <p>Mein erstes Rosen Bild die Bluten </p>
+            <div class="overlay">Mein erstes Rosen Bild die Bluten</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241004-WA0002.jpg" alt="Bild 2" onclick="bildOeffnen(this.src)">
-            <p>Das Flower Power Bild</p>
-
+            <div class="overlay">Das Flower Power Bild</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0005.jpg" alt="Bild 3" onclick="bildOeffnen(this.src)">
-            <p>Die Hübsche Blonde Frau Bild</p>
+            <div class="overlay">Die Hübsche Blonde Frau Bild</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0006.jpg" alt="Bild 4" onclick="bildOeffnen(this.src)">
-            <p>Its better for ever you too Bloom and Smile </p>
+            <div class="overlay">Its better for ever you too Bloom and Smile</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0007.jpg" alt="Bild 5" onclick="bildOeffnen(this.src)">
-            <p>Blumen auf dem Berg die Zerlaufen</p>
+            <div class="overlay">Blumen auf dem Berg die Zerlaufen</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0008.jpg" alt="Bild 6" onclick="bildOeffnen(this.src)">
-            <p>Das Friedens Bild</p>
+            <div class="overlay">Das Friedens Bild</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0009.jpg" alt="Bild 7" onclick="bildOeffnen(this.src)">
-            <p>Die Roten Blumen mit Gold Blätern </p>
+            <div class="overlay">Die Roten Blumen mit Gold Blätern</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0010.jpg" alt="Bild 8" onclick="bildOeffnen(this.src)">
-            <p>Das Erste Portrait</p>
+            <div class="overlay">Das Erste Portrait</div>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0011.jpg" alt="Bild 9" onclick="bildOeffnen(this.src)">
-            <p>Das Haus im Garten</p>
+            <div class="overlay">Das Haus im Garten</div>
         </div>
         <div class="bild-container">
             <img src="images/PXL_20250216_112109455~2.jpg" alt="Bild 10" onclick="bildOeffnen(this.src)">
-            <p>Das Gesicht im Blumenbeet</p>
+            <div class="overlay">Das Gesicht im Blumenbeet</div>
         </div>
 
         </div>
-        <div id="lightbox" onclick="schliessen()">
+        <!-- section ist ein HTML-Tag für einen inhaltlichen Abschnitt -->
+        <section id="ueber-mich">
+            <h2>🖌️ Über mich</h2>
+            <p>Ich bin Kati und male leidenschaftlich gerne — hauptsächlich Blumen, Portraits und bunte Landschaften. Jedes Bild erzählt eine Geschichte und entsteht direkt aus dem Herzen.</p>
+            <p>Ich male mit Acrylfarben und experimentiere gerne mit verschiedenen Stilen und Techniken.</p>
+        </section>
+
+        <!-- footer ist der untere Bereich der Seite -->
+        <footer>
+            <p>© 2025 Katis Galerie &hearts; Alle Bilder selbst gemalt</p>
+        </footer>
+
+        <div id="lightbox">
+            <!-- onclick="schliessen()" nur auf den Hintergrund, nicht auf Pfeile -->
+            <div id="hintergrund" onclick="schliessen()"></div>
+            <button id="pfeilLinks"  onclick="bildWechseln(-1)">&#10094;</button>
             <img id="grossesBild" src="">
+            <button id="pfeilRechts" onclick="bildWechseln(1)">&#10095;</button>
         </div>
         <script src="js/script.js"></script>
     </body>

@@ -1,6 +1,19 @@
+/* @keyframes definiert eine Animation namens "hintergrund" */
+@keyframes hintergrund {
+    0%   { background-position: 0% 50%; }    /* Start: links */
+    50%  { background-position: 100% 50%; }  /* Mitte: rechts */
+    100% { background-position: 0% 50%; }    /* Ende: wieder links */
+}
+
 body {
-    background-color: #1a1a2e;
-    font-family: Arial;
+    /* linear-gradient macht einen Farbverlauf zwischen 3 Farben */
+    background: linear-gradient(270deg, #1a1a2e, #4a0e5e, #1a1a2e);
+    background-size: 400% 400%;  /* Hintergrund größer als der Screen damit er sich bewegen kann */
+
+    /* animation: Name | Dauer | Kurve | Wiederholen */
+    animation: hintergrund 10s ease infinite;
+
+    font-family: 'Poppins', Arial;
     color: white;
     text-align: center;
     padding: 40px;
@@ -8,6 +21,7 @@ body {
 h1 {
     font-size: 40px;
     color: plum;
+    font-family: 'Playfair Display', Arial;  /* Playfair für die Überschrift */
 }
 .galerie {
     display: flex;
@@ -30,15 +44,59 @@ h1 {
     box-shadow: 0 0 20px plum;
     cursor: pointer;
 }
-.bild-container {
-    text-align: center;
+/* @keyframes für das Einblenden — nur opacity, kein transform! */
+/* So beißt es sich nicht mit dem scale() beim Hover */
+@keyframes einblenden {
+    0%   { opacity: 0; }   /* unsichtbar */
+    100% { opacity: 1; }   /* sichtbar */
 }
 
-.bild-container p {
+.bild-container {
+    text-align: center;
+    position: relative;  /* Ankerpunkt für das Overlay */
+}
+
+/* Die Animation liegt jetzt auf dem img, nicht auf dem Container */
+.bild-container img {
+    animation: einblenden 0.6s ease both;
+}
+
+/* nth-child(n) spricht das n-te .bild-container an */
+/* Das img darin erbt die Verzögerung */
+.bild-container:nth-child(1)  img { animation-delay: 0.1s; }
+.bild-container:nth-child(2)  img { animation-delay: 0.2s; }
+.bild-container:nth-child(3)  img { animation-delay: 0.3s; }
+.bild-container:nth-child(4)  img { animation-delay: 0.4s; }
+.bild-container:nth-child(5)  img { animation-delay: 0.5s; }
+.bild-container:nth-child(6)  img { animation-delay: 0.6s; }
+.bild-container:nth-child(7)  img { animation-delay: 0.7s; }
+.bild-container:nth-child(8)  img { animation-delay: 0.8s; }
+.bild-container:nth-child(9)  img { animation-delay: 0.9s; }
+.bild-container:nth-child(10) img { animation-delay: 1.0s; }
+
+/* Das Overlay liegt über dem Bild */
+.overlay {
+    position: absolute;  /* positioniert sich relativ zu .bild-container */
+    bottom: 0;           /* klebt am unteren Rand */
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.6);  /* schwarz, halbtransparent */
+    border-radius: 0 0 15px 15px;          /* nur unten abgerundet */
     color: plum;
-    font-size: 16px;
-    margin-top: 8px;
+    font-size: 14px;
     font-weight: bold;
+
+    /* unsichtbar am Anfang */
+    opacity: 0;
+
+    /* sanfter Übergang über 0.3 Sekunden */
+    transition: opacity 0.3s ease;
+}
+
+/* Wenn man über .bild-container hovered, wird das .overlay sichtbar */
+.bild-container:hover .overlay {
+    opacity: 1;
 }
 #lightbox {
     display: none;
@@ -47,15 +105,145 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.9);
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+}
+
+/* Der dunkle Hintergrund liegt hinter allem */
+#hintergrund {
+    position: absolute;  /* füllt die ganze Lightbox aus */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    cursor: pointer;     /* Mauszeiger wird zur Hand */
 }
 
 #lightbox img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 80%;
+    max-height: 85%;
     border-radius: 15px;
     border: 3px solid plum;
+    position: relative;  /* liegt über dem Hintergrund */
+    z-index: 1;          /* z-index bestimmt wer "vorne" liegt */
+}
+
+/* Beide Pfeil-Buttons gleich stylen */
+#pfeilLinks, #pfeilRechts {
+    position: relative;
+    z-index: 1;           /* liegt auch über dem Hintergrund */
+    background: none;     /* kein Hintergrund */
+    border: none;         /* kein Rahmen */
+    color: plum;
+    font-size: 50px;
+    cursor: pointer;
+    padding: 0 20px;
+    transition: color 0.2s ease;
+}
+
+#pfeilLinks:hover, #pfeilRechts:hover {
+    color: white;
+}
+
+/* ======================== */
+/* ÜBER MICH SEKTION        */
+/* ======================== */
+#ueber-mich {
+    /* max-width begrenzt die Breite des Blocks */
+    max-width: 600px;
+
+    /* margin: oben | auto links+rechts → zentriert den Block */
+    margin: 60px auto 0 auto;
+
+    /* border-top zeichnet eine Linie oben */
+    border-top: 2px solid plum;
+
+    padding-top: 40px;
+}
+
+#ueber-mich h2 {
+    font-family: 'Playfair Display', Arial;
+    font-size: 28px;
+    color: plum;
+    margin-bottom: 15px;
+}
+
+#ueber-mich p {
+    font-size: 16px;
+    line-height: 1.8;   /* Zeilenabstand — 1.8x die Schriftgröße */
+    color: #ddd;        /* leicht grau statt reinweiß — angenehmer zu lesen */
+    margin-bottom: 10px;
+}
+
+/* ======================== */
+/* FOOTER                   */
+/* ======================== */
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 1px solid rgba(221, 160, 221, 0.3);  /* plum, sehr transparent */
+    color: rgba(255, 255, 255, 0.4);                 /* weiß, halb transparent */
+    font-size: 14px;
+}
+
+/* ===================== */
+/* RESPONSIVE FÜR TABLET */
+/* gilt wenn Bildschirm schmaler als 768px ist */
+/* ===================== */
+@media (max-width: 768px) {
+
+    body {
+        padding: 20px;  /* weniger Abstand am Rand */
+    }
+
+    h1 {
+        font-size: 28px;  /* kleinere Überschrift */
+    }
+
+    /* Bilder etwas kleiner auf Tablet */
+    .galerie img {
+        width: 200px;
+        height: 200px;
+    }
+
+    /* Pfeile kleiner */
+    #pfeilLinks, #pfeilRechts {
+        font-size: 35px;
+        padding: 0 10px;
+    }
+}
+
+/* ==================== */
+/* RESPONSIVE FÜR HANDY */
+/* gilt wenn Bildschirm schmaler als 480px ist */
+/* ==================== */
+@media (max-width: 480px) {
+
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    /* Auf Handy: Bilder nehmen fast die ganze Breite ein */
+    .galerie img {
+        width: 85vw;   /* vw = viewport width, 85% der Bildschirmbreite */
+        height: 85vw;  /* gleiche Höhe wie Breite → quadratisch */
+    }
+
+    /* Galerie hat weniger Abstand zwischen den Bildern */
+    .galerie {
+        gap: 15px;
+    }
+
+    /* Overlay-Text etwas größer für Handy */
+    .overlay {
+        font-size: 16px;
+        padding: 12px 0;
+        /* Auf Handy immer sichtbar — kein Hover auf Touchscreen! */
+        opacity: 1;
+    }
 }
