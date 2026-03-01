@@ -8,49 +8,66 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
+        <!-- nav ist das HTML-Tag für Navigation -->
+        <nav id="navbar">
+            <!-- a href="#id" springt zum Element mit dieser ID -->
+            <a href="#galerie">Galerie</a>
+            <a href="#ueber-mich">Über mich</a>
+        </nav>
+
         <h1>🎨 Katis Galerie</h1>
         <p>Bilder die ich selbst gemalt habe</p>
 
-        <div class="galerie">
+        <div class="galerie" id="galerie">
         <div class="bild-container">
             <img src="images/IMG-20241008-WA0011.jpg" alt="Bild 1" onclick="bildOeffnen(this.src)">
             <div class="overlay">Mein erstes Rosen Bild die Bluten</div>
+            <button class="like-btn" onclick="liken(this, 0)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241004-WA0002.jpg" alt="Bild 2" onclick="bildOeffnen(this.src)">
             <div class="overlay">Das Flower Power Bild</div>
+            <button class="like-btn" onclick="liken(this, 1)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0005.jpg" alt="Bild 3" onclick="bildOeffnen(this.src)">
             <div class="overlay">Die Hübsche Blonde Frau Bild</div>
+            <button class="like-btn" onclick="liken(this, 2)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0006.jpg" alt="Bild 4" onclick="bildOeffnen(this.src)">
             <div class="overlay">Its better for ever you too Bloom and Smile</div>
+            <button class="like-btn" onclick="liken(this, 3)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0007.jpg" alt="Bild 5" onclick="bildOeffnen(this.src)">
             <div class="overlay">Blumen auf dem Berg die Zerlaufen</div>
+            <button class="like-btn" onclick="liken(this, 4)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0008.jpg" alt="Bild 6" onclick="bildOeffnen(this.src)">
             <div class="overlay">Das Friedens Bild</div>
+            <button class="like-btn" onclick="liken(this, 5)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0009.jpg" alt="Bild 7" onclick="bildOeffnen(this.src)">
             <div class="overlay">Die Roten Blumen mit Gold Blätern</div>
+            <button class="like-btn" onclick="liken(this, 6)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0010.jpg" alt="Bild 8" onclick="bildOeffnen(this.src)">
             <div class="overlay">Das Erste Portrait</div>
+            <button class="like-btn" onclick="liken(this, 7)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/IMG-20241114-WA0011.jpg" alt="Bild 9" onclick="bildOeffnen(this.src)">
             <div class="overlay">Das Haus im Garten</div>
+            <button class="like-btn" onclick="liken(this, 8)">♡ <span>0</span></button>
         </div>
         <div class="bild-container">
             <img src="images/PXL_20250216_112109455~2.jpg" alt="Bild 10" onclick="bildOeffnen(this.src)">
             <div class="overlay">Das Gesicht im Blumenbeet</div>
+            <button class="like-btn" onclick="liken(this, 9)">♡ <span>0</span></button>
         </div>
 
         </div>
@@ -72,7 +89,14 @@
             <button id="pfeilLinks"  onclick="bildWechseln(-1)">&#10094;</button>
             <img id="grossesBild" src="">
             <button id="pfeilRechts" onclick="bildWechseln(1)">&#10095;</button>
+            <!-- der Zähler wird per JavaScript befüllt -->
+            <div id="zaehler">1 / 10</div>
+            <!-- der Titel wird per JavaScript befüllt -->
+            <div id="lightbox-titel"></div>
         </div>
+        <!-- der Button ist am Anfang unsichtbar, JS macht ihn sichtbar -->
+        <button id="nachOben">&#8679;</button>
+
         <script src="js/script.js"></script>
     </body>
 </html>

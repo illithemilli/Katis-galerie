@@ -12,8 +12,28 @@ var bilder = [
     "images/PXL_20250216_112109455~2.jpg"
 ];
 
+// Die Titel der Bilder — in derselben Reihenfolge wie das bilder-Array
+var titel = [
+    "Mein erstes Rosen Bild die Bluten",
+    "Das Flower Power Bild",
+    "Die Hübsche Blonde Frau Bild",
+    "Its better for ever you too Bloom and Smile",
+    "Blumen auf dem Berg die Zerlaufen",
+    "Das Friedens Bild",
+    "Die Roten Blumen mit Gold Blätern",
+    "Das Erste Portrait",
+    "Das Haus im Garten",
+    "Das Gesicht im Blumenbeet"
+];
+
 // Eine Variable merkt sich welches Bild gerade offen ist (0 = erstes Bild)
 var aktuellesIndex = 0;
+
+// Diese Hilfsfunktion aktualisiert den Zähler und den Titel
+function zaehlerAktualisieren() {
+    document.getElementById("zaehler").textContent = `${aktuellesIndex + 1} / ${bilder.length}`;
+    document.getElementById("lightbox-titel").textContent = titel[aktuellesIndex];
+}
 
 // Diese Funktion wird aufgerufen wenn man ein Bild anklickt
 function bildOeffnen(src) {
@@ -23,6 +43,9 @@ function bildOeffnen(src) {
 
     // Das große Bild bekommt den richtigen Pfad
     document.getElementById("grossesBild").src = bilder[aktuellesIndex];
+
+    // Zähler aktualisieren
+    zaehlerAktualisieren();
 
     // Die Lightbox wird sichtbar
     document.getElementById("lightbox").style.display = "flex";
@@ -45,6 +68,9 @@ function bildWechseln(richtung) {
 
     // Das große Bild aktualisieren
     document.getElementById("grossesBild").src = bilder[aktuellesIndex];
+
+    // Zähler aktualisieren
+    zaehlerAktualisieren();
 }
 
 // Diese Funktion schließt die Lightbox
@@ -105,4 +131,81 @@ lightbox.addEventListener("touchend", function(event) {
     if (differenz < -50) {
         bildWechseln(-1);   // nach rechts gewischt → vorheriges Bild
     }
+});
+
+// ========================
+// LIKE BUTTON
+// ========================
+
+// localStorage kann nur Text speichern
+// JSON.parse verwandelt Text zurück in ein JavaScript-Objekt
+// Wenn noch nichts gespeichert ist, nehmen wir ein leeres Objekt {}
+var likes = JSON.parse(localStorage.getItem("likes")) || {};
+
+// Beim Laden der Seite: alle Like-Buttons auf den gespeicherten Stand setzen
+document.querySelectorAll(".like-btn").forEach(function(btn, index) {
+    // likes[index] ist die Anzahl der Likes für dieses Bild
+    if (likes[index]) {
+        // Anzahl anzeigen
+        btn.querySelector("span").textContent = likes[index].anzahl;
+        // Herz rot färben wenn geliked
+        if (likes[index].geliked) {
+            btn.classList.add("geliked");
+            btn.firstChild.textContent = "♥ ";  // volles Herz
+        }
+    }
+});
+
+function liken(btn, index) {
+    // Wenn noch kein Eintrag für dieses Bild → erstelle einen
+    if (!likes[index]) {
+        likes[index] = { anzahl: 0, geliked: false };
+    }
+
+    // toggle: war es geliked → unlike, war es nicht geliked → like
+    likes[index].geliked = !likes[index].geliked;
+
+    if (likes[index].geliked) {
+        likes[index].anzahl = likes[index].anzahl + 1;  // Anzahl hoch
+        btn.classList.add("geliked");
+        btn.firstChild.textContent = "♥ ";              // volles Herz
+    } else {
+        likes[index].anzahl = likes[index].anzahl - 1;  // Anzahl runter
+        btn.classList.remove("geliked");
+        btn.firstChild.textContent = "♡ ";              // leeres Herz
+    }
+
+    // Anzahl im Button aktualisieren
+    btn.querySelector("span").textContent = likes[index].anzahl;
+
+    // Im localStorage speichern
+    // JSON.stringify verwandelt das Objekt in Text damit localStorage es speichern kann
+    localStorage.setItem("likes", JSON.stringify(likes));
+}
+
+// ========================
+// NACH-OBEN BUTTON
+// ========================
+
+var nachObenBtn = document.getElementById("nachOben");
+
+// "scroll" Event — wird ausgelöst wenn der Nutzer scrollt
+// window.scrollY = wie viele Pixel schon gescrollt wurde
+window.addEventListener("scroll", function() {
+
+    if (window.scrollY > 300) {
+        // classList.add() fügt eine CSS-Klasse hinzu
+        nachObenBtn.classList.add("sichtbar");
+    } else {
+        // classList.remove() entfernt eine CSS-Klasse
+        nachObenBtn.classList.remove("sichtbar");
+    }
+});
+
+// Klick auf den Button → scrollt nach oben
+nachObenBtn.addEventListener("click", function() {
+    // scrollTo() scrollt zu einer Position
+    // top: 0 = ganz oben
+    // behavior: "smooth" = sanft scrollen
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });

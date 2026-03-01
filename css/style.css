@@ -1,4 +1,47 @@
-/* @keyframes definiert eine Animation namens "hintergrund" */
+/* smooth scrollt sanft zu Ankern statt direkt hinzuspringen */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ======================== */
+/* NAVIGATION               */
+/* ======================== */
+#navbar {
+    /* sticky klebt am oberen Rand wenn man scrollt */
+    position: sticky;
+    top: 0;           /* 0px vom oberen Rand */
+
+    /* damit das Menü über allem anderen liegt */
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 15px 0;
+
+    /* leicht durchsichtiger dunkler Hintergrund */
+    background-color: rgba(26, 26, 46, 0.9);
+
+    /* Unschärfe-Effekt hinter dem Menü — moderner Glaseffekt */
+    backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid rgba(221, 160, 221, 0.3);
+}
+
+#navbar a {
+    color: plum;
+    text-decoration: none;    /* kein Unterstrich */
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;      /* etwas Abstand zwischen den Buchstaben */
+    transition: color 0.2s ease;
+}
+
+#navbar a:hover {
+    color: white;
+}
+
+/* ======================== */
 @keyframes hintergrund {
     0%   { background-position: 0% 50%; }    /* Start: links */
     50%  { background-position: 100% 50%; }  /* Mitte: rechts */
@@ -77,21 +120,32 @@ h1 {
 /* Das Overlay liegt über dem Bild */
 .overlay {
     position: absolute;  /* positioniert sich relativ zu .bild-container */
-    bottom: 0;           /* klebt am unteren Rand */
+    bottom: 0;           /* klebt am unteren Rand des BILDES */
     left: 0;
     width: 100%;
-    padding: 10px 0;
-    background-color: rgba(0, 0, 0, 0.6);  /* schwarz, halbtransparent */
-    border-radius: 0 0 15px 15px;          /* nur unten abgerundet */
+
+    /* Höhe des Bildes ist 300px — Overlay nur über dem Bild, nicht dem Button */
+    /* padding-bottom sorgt dafür dass es nicht über den Button ragt */
+    height: 300px;
+    display: flex;
+    align-items: flex-end;  /* Text klebt unten */
+
+    padding: 0 0 10px 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+    border-radius: 15px;
     color: plum;
     font-size: 14px;
     font-weight: bold;
+    justify-content: center;
 
     /* unsichtbar am Anfang */
     opacity: 0;
 
     /* sanfter Übergang über 0.3 Sekunden */
     transition: opacity 0.3s ease;
+
+    /* wichtig: Klicks auf den Like-Button durchlassen */
+    pointer-events: none;
 }
 
 /* Wenn man über .bild-container hovered, wird das .overlay sichtbar */
@@ -146,6 +200,38 @@ h1 {
     color: white;
 }
 
+#lightbox-titel {
+    position: absolute;
+    top: 20px;             /* oben in der Lightbox */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 18px;
+    font-family: 'Playfair Display', Arial;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 6px 20px;
+    border-radius: 20px;
+    z-index: 2;
+    white-space: nowrap;   /* kein Zeilenumbruch */
+}
+
+#zaehler {
+    position: absolute;   /* positioniert sich relativ zur Lightbox */
+    bottom: 20px;         /* 20px vom unteren Rand */
+    left: 50%;            /* erst zur Mitte schieben */
+
+    /* transform: translateX(-50%) zentriert es exakt */
+    /* weil left: 50% die linke Kante zentriert, nicht das Element selbst */
+    transform: translateX(-50%);
+
+    color: white;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 15px;
+    border-radius: 20px;
+    z-index: 2;           /* über dem Hintergrund und dem Bild */
+}
+
 /* ======================== */
 /* ÜBER MICH SEKTION        */
 /* ======================== */
@@ -185,6 +271,70 @@ footer {
     border-top: 1px solid rgba(221, 160, 221, 0.3);  /* plum, sehr transparent */
     color: rgba(255, 255, 255, 0.4);                 /* weiß, halb transparent */
     font-size: 14px;
+}
+
+/* ======================== */
+/* LIKE BUTTON              */
+/* ======================== */
+.like-btn {
+    margin-top: 8px;
+    background: none;
+    border: 2px solid plum;
+    border-radius: 20px;
+    color: plum;
+    font-size: 16px;
+    padding: 4px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.like-btn:hover {
+    background-color: plum;
+    color: white;
+}
+
+/* .geliked Klasse wird per JavaScript hinzugefügt */
+.like-btn.geliked {
+    background-color: crimson;   /* rot wenn geliked */
+    border-color: crimson;
+    color: white;
+}
+
+/* ======================== */
+/* NACH-OBEN BUTTON         */
+/* ======================== */
+#nachOben {
+    /* fixed bleibt immer an derselben Stelle auf dem Bildschirm */
+    position: fixed;
+    bottom: 30px;    /* 30px vom unteren Rand */
+    right: 30px;     /* 30px vom rechten Rand */
+
+    background-color: plum;
+    color: white;
+    border: none;
+    border-radius: 50%;   /* runder Button */
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 99;
+
+    /* am Anfang unsichtbar */
+    opacity: 0;
+
+    /* sanfter Übergang für opacity und transform */
+    transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+/* sichtbar-Klasse wird per JavaScript hinzugefügt */
+#nachOben.sichtbar {
+    opacity: 1;
+}
+
+#nachOben:hover {
+    transform: scale(1.1);    /* etwas größer beim Hover */
+    background-color: white;
+    color: plum;
 }
 
 /* ===================== */
