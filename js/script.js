@@ -4,7 +4,7 @@
 
 // "import" lädt externe Bibliotheken — das ist modernes JavaScript (ES Modules)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, onValue, runTransaction, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 // Die Firebase Konfiguration — verbindet uns mit der Datenbank
 const firebaseConfig = {
@@ -117,6 +117,72 @@ function liken(btn, index) {
 }
 
 // ========================
+// KOMMENTARE
+// ========================
+
+// Merkt sich den aktuellen Kommentar-Listener damit wir ihn abmelden können
+var kommentarUnsubscribe = null;
+
+function kommentareLaden(bildIndex) {
+    var liste = document.getElementById("kommentare-liste");
+    liste.innerHTML = "";  // Liste leeren
+
+    // Wenn vorheriger Listener noch aktiv war → abmelden
+    if (kommentarUnsubscribe) { kommentarUnsubscribe(); }
+
+    var kommentarRef = ref(db, "kommentare/bild" + bildIndex);
+
+    // onValue gibt eine Funktion zurück die den Listener abmeldet
+    kommentarUnsubscribe = onValue(kommentarRef, function(snapshot) {
+        liste.innerHTML = "";  // bei jedem Update neu aufbauen
+
+        if (!snapshot.val()) {
+            liste.innerHTML = "<p style='color:rgba(255,255,255,0.3);font-size:12px'>Noch keine Kommentare</p>";
+            return;
+        }
+
+        // snapshot.val() gibt ein Objekt zurück — Object.values() macht ein Array daraus
+        var kommentare = Object.values(snapshot.val());
+
+        kommentare.forEach(function(k) {
+            // Für jeden Kommentar ein div erstellen
+            var div = document.createElement("div");
+            div.className = "kommentar";
+            // innerHTML setzt den HTML-Inhalt eines Elements
+            div.innerHTML = `<div class="name">👤 ${k.name}</div><div class="text">${k.text}</div>`;
+            liste.appendChild(div);  // div zur Liste hinzufügen
+        });
+
+        // Automatisch nach unten scrollen
+        liste.scrollTop = liste.scrollHeight;
+    });
+}
+
+// Formular abschicken
+document.getElementById("kommentar-form").addEventListener("submit", function(event) {
+    // preventDefault verhindert dass die Seite neu lädt
+    event.preventDefault();
+
+    var name = document.getElementById("kommentar-name").value.trim();
+    var text = document.getElementById("kommentar-text").value.trim();
+
+    // Nur absenden wenn beide Felder ausgefüllt sind
+    if (!name || !text) return;
+
+    var kommentarRef = ref(db, "kommentare/bild" + aktuellesIndex);
+
+    // push() fügt einen neuen Eintrag mit automatischer ID hinzu
+    push(kommentarRef, {
+        name: name,
+        text: text,
+        zeit: Date.now()  // Zeitstempel in Millisekunden
+    });
+
+    // Eingabefelder leeren nach dem Absenden
+    document.getElementById("kommentar-text").value = "";
+});
+
+// ========================
 // LIGHTBOX
 // ========================
 
@@ -130,6 +196,7 @@ window.bildOeffnen = function(src) {
     aktuellesIndex = bilder.indexOf(src);
     document.getElementById("grossesBild").src = bilder[aktuellesIndex];
     zaehlerAktualisieren();
+    kommentareLaden(aktuellesIndex);  // Kommentare für dieses Bild laden
     document.getElementById("lightbox").style.display = "flex";
 };
 
@@ -139,6 +206,7 @@ window.bildWechseln = function(richtung) {
     if (aktuellesIndex < 0) { aktuellesIndex = bilder.length - 1; }
     document.getElementById("grossesBild").src = bilder[aktuellesIndex];
     zaehlerAktualisieren();
+    kommentareLaden(aktuellesIndex);  // Kommentare für neues Bild laden
 };
 
 window.schliessen = function() {

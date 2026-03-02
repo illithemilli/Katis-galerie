@@ -93,6 +93,17 @@
             <div id="zaehler">1 / 10</div>
             <!-- der Titel wird per JavaScript befüllt -->
             <div id="lightbox-titel"></div>
+
+            <!-- Kommentarbereich -->
+            <div id="kommentare-box">
+                <h3>💬 Kommentare</h3>
+                <div id="kommentare-liste"></div>
+                <form id="kommentar-form">
+                    <input type="text" id="kommentar-name" placeholder="Dein Name" maxlength="30">
+                    <input type="text" id="kommentar-text" placeholder="Dein Kommentar..." maxlength="200">
+                    <button type="submit">Senden</button>
+                </form>
+            </div>
         </div>
         <!-- der Button ist am Anfang unsichtbar, JS macht ihn sichtbar -->
         <button id="nachOben">&#8679;</button>

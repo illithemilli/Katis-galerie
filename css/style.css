@@ -233,6 +233,108 @@ h1 {
 }
 
 /* ======================== */
+/* KOMMENTARE               */
+/* ======================== */
+#kommentare-box {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    width: 280px;
+    background-color: rgba(26, 26, 46, 0.95);
+    border: 1px solid rgba(221, 160, 221, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    z-index: 2;
+    max-height: 350px;
+    display: flex;
+    flex-direction: column;  /* Kindelemente untereinander anordnen */
+}
+
+#kommentare-box h3 {
+    color: plum;
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    font-family: 'Playfair Display', Arial;
+}
+
+#kommentare-liste {
+    overflow-y: auto;    /* scrollbar wenn zu viele Kommentare */
+    flex: 1;             /* nimmt den verfügbaren Platz ein */
+    margin-bottom: 10px;
+    max-height: 180px;
+}
+
+/* ein einzelner Kommentar */
+.kommentar {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.kommentar .name {
+    color: plum;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.kommentar .text {
+    color: #ddd;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+/* das Formular */
+#kommentar-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#kommentar-form input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(221, 160, 221, 0.4);
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    padding: 6px 10px;
+    outline: none;       /* kein blauer Rahmen beim Klicken */
+}
+
+#kommentar-form input::placeholder {
+    color: rgba(255, 255, 255, 0.4);  /* placeholder-Text halbtransparent */
+}
+
+#kommentar-form button {
+    background-color: plum;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    padding: 7px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#kommentar-form button:hover {
+    background-color: white;
+    color: plum;
+}
+
+/* auf Handy: Kommentarbox volle Breite unten */
+@media (max-width: 480px) {
+    #kommentare-box {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 90%;
+        margin: 15px auto 0 auto;
+        max-height: 250px;
+    }
+}
+
+/* ======================== */
 /* ÜBER MICH SEKTION        */
 /* ======================== */
 #ueber-mich {
@@ -392,8 +494,19 @@ footer {
     /* Overlay-Text etwas größer für Handy */
     .overlay {
         font-size: 16px;
-        padding: 12px 0;
         /* Auf Handy immer sichtbar — kein Hover auf Touchscreen! */
         opacity: 1;
+        /* Overlay nur halb so hoch — Platz für den Like-Button lassen */
+        height: 50%;
+        top: 50%;      /* fängt in der Mitte des Bildes an */
+        bottom: auto;
+    }
+
+    /* Like-Button auf Handy größer und besser sichtbar */
+    .like-btn {
+        font-size: 20px;       /* größere Schrift */
+        padding: 8px 20px;     /* mehr Klickfläche für Finger */
+        margin-top: 10px;
+        border-width: 2px;
     }
 }
