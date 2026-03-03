@@ -28,6 +28,20 @@ html {
 }
 
 /* ======================== */
+/* LADEBALKEN               */
+/* ======================== */
+#ladebalken {
+    position: fixed;   /* immer oben sichtbar */
+    top: 0;
+    left: 0;
+    width: 0%;         /* startet bei 0% — wird per JS aktualisiert */
+    height: 4px;
+    background: linear-gradient(90deg, plum, crimson, plum);
+    z-index: 999;      /* über allem anderen */
+    transition: width 0.1s ease;  /* sanfte Bewegung */
+}
+
+/* ======================== */
 /* NAVIGATION               */
 /* ======================== */
 #navbar {

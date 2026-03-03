@@ -300,6 +300,26 @@ themeToggle.addEventListener("click", function() {
 });
 
 // ========================
+// LADEBALKEN
+// ========================
+
+var ladebalken = document.getElementById("ladebalken");
+
+window.addEventListener("scroll", function() {
+
+    // scrollHeight = gesamte Höhe der Seite
+    // innerHeight  = Höhe des sichtbaren Browserfensters
+    // scrollHeight - innerHeight = maximale Scroll-Distanz
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+    // Wie weit wurde schon gescrollt? In Prozent!
+    var prozent = (window.scrollY / maxScroll) * 100;
+
+    // Breite des Balkens setzen
+    ladebalken.style.width = prozent + "%";
+});
+
+// ========================
 // NACH-OBEN BUTTON
 // ========================
 
