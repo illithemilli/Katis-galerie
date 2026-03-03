@@ -41,6 +41,28 @@ html {
 }
 
 /* ======================== */
+/* FEHLER MELDUNG           */
+/* ======================== */
+#fehler-meldung {
+    display: none;           /* standardmäßig unsichtbar */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: crimson;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 999;
+    animation: seiteEinblenden 0.3s ease both;
+}
+
+#fehler-meldung.sichtbar {
+    display: block;
+}
+
+/* ======================== */
 /* LADEBALKEN               */
 /* ======================== */
 #ladebalken {
@@ -410,6 +432,14 @@ h1 {
     color: plum;
     font-size: 12px;
     font-weight: bold;
+    display: flex;
+    justify-content: space-between;  /* Name links, Datum rechts */
+}
+
+.kommentar .datum {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: normal;
+    font-size: 11px;
 }
 
 .kommentar .text {
@@ -546,6 +576,50 @@ footer {
 }
 
 /* ======================== */
+/* SKELETON LOADING         */
+/* ======================== */
+
+/* Shimmer-Animation: ein Lichtstrahl läuft durch den Platzhalter */
+@keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+
+.galerie img {
+    /* Solange das Bild lädt zeigen wir einen animierten grauen Platzhalter */
+    background: linear-gradient(90deg, #2a1a3e 25%, #3a2a5e 50%, #2a1a3e 75%);
+    background-size: 400px 100%;
+    animation: shimmer 1.5s infinite, einblenden 0.6s ease both;
+}
+
+/* Wenn das Bild geladen ist → Skeleton ausblenden */
+.galerie img.geladen {
+    background: none;
+    animation: einblenden 0.6s ease both;
+}
+
+/* ======================== */
+/* KONFETTI                 */
+/* ======================== */
+@keyframes konfettiFliegen {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; }
+}
+
+.konfetti-teilchen {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;   /* Klicks durchlassen */
+    animation: konfettiFliegen 0.8s ease-out forwards;
+    /* forwards: bleibt am Ende der Animation (opacity: 0) */
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+}
+
+/* ======================== */
 /* NACH-OBEN BUTTON         */
 /* ======================== */
 #nachOben {
@@ -623,15 +697,24 @@ footer {
         font-size: 24px;
     }
 
-    /* Auf Handy: Bilder nehmen fast die ganze Breite ein */
-    .galerie img {
-        width: 85vw;   /* vw = viewport width, 85% der Bildschirmbreite */
-        height: 85vw;  /* gleiche Höhe wie Breite → quadratisch */
+    /* Auf Handy: 2 Spalten nebeneinander */
+    .galerie {
+        gap: 10px;
+        /* grid ist wie flex aber in Zeilen UND Spalten */
+        display: grid;
+        grid-template-columns: 1fr 1fr;  /* 2 gleich breite Spalten */
+        padding: 0 5px;
     }
 
-    /* Galerie hat weniger Abstand zwischen den Bildern */
-    .galerie {
-        gap: 15px;
+    /* Bilder füllen die Spalte aus */
+    .galerie img {
+        width: 100%;
+        height: 42vw;  /* Höhe = halbe Bildschirmbreite → quadratisch */
+    }
+
+    /* Overlay Höhe anpassen */
+    .overlay {
+        height: 42vw;
     }
 
     /* Overlay-Text etwas größer für Handy */

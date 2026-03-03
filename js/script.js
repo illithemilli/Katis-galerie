@@ -77,6 +77,14 @@ onValue(besucherRef, function(snapshot) {
     var zahl = snapshot.val() || 0;
     document.getElementById("besucher-zahl").textContent = zahl.toLocaleString("de-DE");
     // toLocaleString("de-DE") formatiert die Zahl z.B. 1.234 statt 1234
+
+    // Firebase hat geantwortet → Verbindung ist OK → Fehler-Meldung verstecken
+    document.getElementById("fehler-meldung").classList.remove("sichtbar");
+
+}, function(fehler) {
+    // Zweiter Parameter von onValue = Fehler-Funktion
+    // Wird aufgerufen wenn keine Verbindung möglich ist
+    document.getElementById("fehler-meldung").classList.add("sichtbar");
 });
 
 // ========================
@@ -110,6 +118,39 @@ bilder.forEach(function(bild, index) {
     }
 });
 
+function konfetti(btn) {
+    var farben = ["plum", "crimson", "white", "#4a0e5e", "#ff69b4"];
+
+    // 15 Konfetti-Teilchen erstellen
+    for (var i = 0; i < 15; i++) {
+
+        var teilchen = document.createElement("div");
+        teilchen.className = "konfetti-teilchen";
+
+        // Math.random() gibt eine Zahl zwischen 0 und 1
+        // Math.random() * 60 - 30 → zwischen -30 und +30
+        var x = Math.random() * 60 - 30;   // zufällige x-Richtung
+        var y = Math.random() * -80 - 20;  // immer nach oben
+
+        // Zufällige Farbe aus dem Array
+        var farbe = farben[Math.floor(Math.random() * farben.length)];
+
+        teilchen.style.backgroundColor = farbe;
+        teilchen.style.setProperty("--x", x + "px");
+        teilchen.style.setProperty("--y", y + "px");
+
+        // Position relativ zum Button
+        btn.appendChild(teilchen);
+
+        // Nach 1 Sekunde das Teilchen wieder entfernen
+        setTimeout(function() {
+            if (teilchen.parentNode) {
+                teilchen.parentNode.removeChild(teilchen);
+            }
+        }, 1000);
+    }
+}
+
 function liken(btn, index) {
     var likeRef = ref(db, "likes/bild" + index);
 
@@ -136,6 +177,7 @@ function liken(btn, index) {
     if (meineGelikes[index]) {
         btn.classList.add("geliked");
         btn.firstChild.textContent = "♥ ";
+        konfetti(btn);  // 🎉 Konfetti nur beim Liken!
     } else {
         btn.classList.remove("geliked");
         btn.firstChild.textContent = "♡ ";
@@ -171,12 +213,24 @@ function kommentareLaden(bildIndex) {
         var kommentare = Object.values(snapshot.val());
 
         kommentare.forEach(function(k) {
-            // Für jeden Kommentar ein div erstellen
             var div = document.createElement("div");
             div.className = "kommentar";
-            // innerHTML setzt den HTML-Inhalt eines Elements
-            div.innerHTML = `<div class="name">👤 ${k.name}</div><div class="text">${k.text}</div>`;
-            liste.appendChild(div);  // div zur Liste hinzufügen
+
+            // new Date(zeitstempel) macht aus einer Zahl ein lesbares Datum
+            var datum = new Date(k.zeit);
+
+            // toLocaleDateString("de-DE") formatiert auf Deutsch: z.B. "3.3.2026"
+            var datumText = datum.toLocaleDateString("de-DE", {
+                day: "numeric",
+                month: "short",   // "Mrz" statt "3"
+                year: "numeric"
+            });
+
+            div.innerHTML = `
+                <div class="name">👤 ${k.name} <span class="datum">${datumText}</span></div>
+                <div class="text">${k.text}</div>
+            `;
+            liste.appendChild(div);
         });
 
         // Automatisch nach unten scrollen
@@ -240,6 +294,24 @@ window.schliessen = function() {
 };
 
 window.liken = liken;
+
+// ========================
+// SKELETON LOADING
+// ========================
+
+// Alle Bilder in der Galerie finden
+document.querySelectorAll(".galerie img").forEach(function(img) {
+
+    // "load" Event — wird ausgelöst wenn das Bild fertig geladen ist
+    img.addEventListener("load", function() {
+        img.classList.add("geladen");  // Skeleton ausblenden
+    });
+
+    // Falls das Bild schon im Cache ist (bereits geladen)
+    if (img.complete) {
+        img.classList.add("geladen");
+    }
+});
 
 // ========================
 // TASTATUR NAVIGATION
