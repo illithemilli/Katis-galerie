@@ -4,6 +4,30 @@ html {
 }
 
 /* ======================== */
+/* CSS VARIABLEN            */
+/* ======================== */
+
+/* :root definiert Variablen für die ganze Seite — das ist Dark Mode (Standard) */
+:root {
+    --hintergrund: linear-gradient(270deg, #1a1a2e, #4a0e5e, #1a1a2e);
+    --text-farbe: white;
+    --navbar-bg: rgba(26, 26, 46, 0.9);
+    --ueber-mich-text: #ddd;
+    --kommentar-bg: rgba(26, 26, 46, 0.95);
+    --kommentar-input-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* [data-theme="light"] überschreibt die Variablen für Light Mode */
+[data-theme="light"] {
+    --hintergrund: linear-gradient(270deg, #f0e6ff, #e8d5f5, #f0e6ff);
+    --text-farbe: #2a0a3a;
+    --navbar-bg: rgba(240, 230, 255, 0.95);
+    --ueber-mich-text: #444;
+    --kommentar-bg: rgba(255, 255, 255, 0.95);
+    --kommentar-input-bg: rgba(0, 0, 0, 0.05);
+}
+
+/* ======================== */
 /* NAVIGATION               */
 /* ======================== */
 #navbar {
@@ -20,7 +44,7 @@ html {
     padding: 15px 0;
 
     /* leicht durchsichtiger dunkler Hintergrund */
-    background-color: rgba(26, 26, 46, 0.9);
+    background-color: var(--navbar-bg);
 
     /* Unschärfe-Effekt hinter dem Menü — moderner Glaseffekt */
     backdrop-filter: blur(10px);
@@ -41,6 +65,20 @@ html {
     color: white;
 }
 
+#theme-toggle {
+    background: none;
+    border: 2px solid plum;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 2px 10px;
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.2);
+}
+
 /* ======================== */
 @keyframes hintergrund {
     0%   { background-position: 0% 50%; }    /* Start: links */
@@ -49,17 +87,18 @@ html {
 }
 
 body {
-    /* linear-gradient macht einen Farbverlauf zwischen 3 Farben */
-    background: linear-gradient(270deg, #1a1a2e, #4a0e5e, #1a1a2e);
-    background-size: 400% 400%;  /* Hintergrund größer als der Screen damit er sich bewegen kann */
-
-    /* animation: Name | Dauer | Kurve | Wiederholen */
+    /* var(--name) benutzt eine CSS Variable */
+    background: var(--hintergrund);
+    background-size: 400% 400%;
     animation: hintergrund 10s ease infinite;
 
     font-family: 'Poppins', Arial;
-    color: white;
+    color: var(--text-farbe);   /* Textfarbe aus Variable */
     text-align: center;
     padding: 40px;
+
+    /* sanfter Übergang wenn Theme wechselt */
+    transition: color 0.3s ease;
 }
 h1 {
     font-size: 40px;
@@ -240,7 +279,7 @@ h1 {
     bottom: 60px;
     right: 20px;
     width: 280px;
-    background-color: rgba(26, 26, 46, 0.95);
+    background-color: var(--kommentar-bg);
     border: 1px solid rgba(221, 160, 221, 0.3);
     border-radius: 15px;
     padding: 15px;
@@ -293,7 +332,7 @@ h1 {
 }
 
 #kommentar-form input {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--kommentar-input-bg);
     border: 1px solid rgba(221, 160, 221, 0.4);
     border-radius: 8px;
     color: white;
@@ -369,8 +408,8 @@ h1 {
 
 #ueber-mich p {
     font-size: 16px;
-    line-height: 1.8;   /* Zeilenabstand — 1.8x die Schriftgröße */
-    color: #ddd;        /* leicht grau statt reinweiß — angenehmer zu lesen */
+    line-height: 1.8;
+    color: var(--ueber-mich-text);  /* Farbe aus Variable */
     margin-bottom: 10px;
 }
 

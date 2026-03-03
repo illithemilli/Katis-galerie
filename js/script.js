@@ -270,6 +270,36 @@ lightbox.addEventListener("touchend", function(event) {
 });
 
 // ========================
+// DARK / LIGHT MODE
+// ========================
+
+var themeToggle = document.getElementById("theme-toggle");
+
+// localStorage merkt sich welches Theme der Besucher gewählt hat
+var gespeichertesTheme = localStorage.getItem("theme") || "dark";
+
+// Theme beim Laden anwenden
+document.documentElement.setAttribute("data-theme", gespeichertesTheme);
+// documentElement ist das <html> Element — dort setzen wir data-theme
+themeToggle.textContent = gespeichertesTheme === "dark" ? "☀️" : "🌙";
+// ? : ist ein "ternary operator" — Kurzform für if/else:
+// bedingung ? wert-wenn-true : wert-wenn-false
+
+themeToggle.addEventListener("click", function() {
+    var aktuell = document.documentElement.getAttribute("data-theme");
+
+    if (aktuell === "dark") {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+        themeToggle.textContent = "🌙";  // im Light Mode zeige Mond
+    } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+        themeToggle.textContent = "☀️";  // im Dark Mode zeige Sonne
+    }
+});
+
+// ========================
 // NACH-OBEN BUTTON
 // ========================
 
