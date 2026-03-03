@@ -28,6 +28,19 @@ html {
 }
 
 /* ======================== */
+/* SEITEN INTRO             */
+/* ======================== */
+@keyframes seiteEinblenden {
+    0%   { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Das main-wrapper div blendet die ganze Seite ein */
+.main-wrapper {
+    animation: seiteEinblenden 0.8s ease both;
+}
+
+/* ======================== */
 /* LADEBALKEN               */
 /* ======================== */
 #ladebalken {
@@ -91,6 +104,45 @@ html {
 
 #theme-toggle:hover {
     transform: scale(1.2);
+}
+
+/* Hamburger Button — standardmäßig versteckt, nur auf Handy sichtbar */
+#hamburger {
+    display: none;   /* unsichtbar auf Desktop */
+    background: none;
+    border: 2px solid plum;
+    border-radius: 8px;
+    color: plum;
+    font-size: 20px;
+    padding: 2px 10px;
+    cursor: pointer;
+}
+
+/* Auf Handy: Links verstecken, Hamburger zeigen */
+@media (max-width: 480px) {
+    #navbar {
+        flex-wrap: wrap;        /* Elemente umbrechen */
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    #navbar a, #theme-toggle {
+        display: none;          /* Links verstecken */
+    }
+
+    #hamburger {
+        display: block;         /* Hamburger zeigen */
+    }
+
+    /* wenn .offen Klasse da ist → Links einblenden */
+    #navbar.offen a,
+    #navbar.offen #theme-toggle {
+        display: block;
+        width: 100%;            /* volle Breite */
+        text-align: center;
+        padding: 8px 0;
+        border-top: 1px solid rgba(221, 160, 221, 0.2);
+    }
 }
 
 /* ======================== */
@@ -266,6 +318,32 @@ h1 {
     border-radius: 20px;
     z-index: 2;
     white-space: nowrap;   /* kein Zeilenumbruch */
+}
+
+#lightbox-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+}
+
+#vollbild-btn, #download-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(221, 160, 221, 0.5);
+    border-radius: 8px;
+    color: plum;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#vollbild-btn:hover, #download-btn:hover {
+    background-color: plum;
+    color: white;
 }
 
 #zaehler {

@@ -300,6 +300,27 @@ themeToggle.addEventListener("click", function() {
 });
 
 // ========================
+// HAMBURGER MENÜ
+// ========================
+
+document.getElementById("hamburger").addEventListener("click", function() {
+    var navbar = document.getElementById("navbar");
+    // toggle fügt die Klasse hinzu ODER entfernt sie
+    navbar.classList.toggle("offen");
+
+    // Icon wechseln: ☰ wenn zu, ✕ wenn offen
+    this.textContent = navbar.classList.contains("offen") ? "✕" : "☰";
+});
+
+// Menü schließen wenn man einen Link anklickt
+document.querySelectorAll("#navbar a").forEach(function(link) {
+    link.addEventListener("click", function() {
+        document.getElementById("navbar").classList.remove("offen");
+        document.getElementById("hamburger").textContent = "☰";
+    });
+});
+
+// ========================
 // LADEBALKEN
 // ========================
 
@@ -336,3 +357,55 @@ window.addEventListener("scroll", function() {
 nachObenBtn.addEventListener("click", function() {
     window.scrollTo({ top: 0, behavior: "smooth" });
 });
+
+// ========================
+// VOLLBILD & DOWNLOAD
+// ========================
+
+document.getElementById("vollbild-btn").addEventListener("click", function() {
+    var grossesBild = document.getElementById("grossesBild");
+
+    // requestFullscreen() macht ein Element zum Vollbild
+    if (grossesBild.requestFullscreen) {
+        grossesBild.requestFullscreen();
+    }
+});
+
+document.getElementById("download-btn").addEventListener("click", function() {
+    var src = bilder[aktuellesIndex];
+    var bildTitel = titel[aktuellesIndex];
+
+    // Ein unsichtbares <a> Element erstellen und draufklicken
+    // Das ist der Trick um einen Download auszulösen
+    var link = document.createElement("a");
+    link.href = src;
+    link.download = bildTitel + ".jpg";  // Dateiname = Bildtitel
+    link.click();
+});
+
+// ========================
+// FAVICON
+// ========================
+
+// Canvas ist ein HTML-Element auf dem man zeichnen kann
+var canvas = document.createElement("canvas");
+canvas.width = 64;   // 64x64 Pixel
+canvas.height = 64;
+
+// getContext("2d") gibt uns den Zeichen-Kontext
+var ctx = canvas.getContext("2d");
+
+// Hintergrund: lila Kreis
+ctx.fillStyle = "#4a0e5e";
+ctx.beginPath();
+ctx.arc(32, 32, 32, 0, Math.PI * 2);  // Kreis: Mitte x, Mitte y, Radius, Startwinkel, Endwinkel
+ctx.fill();
+
+// Emoji drauf zeichnen
+ctx.font = "40px Arial";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText("🎨", 32, 32);
+
+// Canvas als PNG-Daten-URL exportieren und als Favicon setzen
+document.getElementById("favicon").href = canvas.toDataURL("image/png");

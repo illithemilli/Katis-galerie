@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>Katis Galerie</title>
+        <!-- Favicon — das Icon im Browser-Tab -->
+        <link rel="icon" id="favicon" type="image/png" href="">
         <!-- viewport sagt dem Handy: nutze die echte Bildschirmbreite -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400&display=swap">
@@ -18,8 +20,12 @@
             <a href="#ueber-mich">Über mich</a>
             <!-- Theme Toggle Button -->
             <button id="theme-toggle">🌙</button>
+            <!-- Hamburger Button — nur auf Handy sichtbar -->
+            <button id="hamburger">☰</button>
         </nav>
 
+        <!-- main-wrapper umhüllt den Hauptinhalt für die Intro-Animation -->
+        <div class="main-wrapper">
         <h1>🎨 Katis Galerie</h1>
         <p>Bilder die ich selbst gemalt habe</p>
         <!-- Besucher-Zähler — wird per JavaScript befüllt -->
@@ -89,6 +95,7 @@
         <footer>
             <p>© 2025 Katis Galerie &hearts; Alle Bilder selbst gemalt</p>
         </footer>
+        </div> <!-- Ende main-wrapper -->
 
         <div id="lightbox">
             <!-- onclick="schliessen()" nur auf den Hintergrund, nicht auf Pfeile -->
@@ -96,6 +103,11 @@
             <button id="pfeilLinks"  onclick="bildWechseln(-1)">&#10094;</button>
             <img id="grossesBild" src="">
             <button id="pfeilRechts" onclick="bildWechseln(1)">&#10095;</button>
+            <!-- Vollbild und Download Buttons -->
+            <div id="lightbox-buttons">
+                <button id="vollbild-btn" title="Vollbild">⛶</button>
+                <button id="download-btn" title="Herunterladen">⬇</button>
+            </div>
             <!-- der Zähler wird per JavaScript befüllt -->
             <div id="zaehler">1 / 10</div>
             <!-- der Titel wird per JavaScript befüllt -->
