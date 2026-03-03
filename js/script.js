@@ -54,6 +54,32 @@ var titel = [
 var aktuellesIndex = 0;
 
 // ========================
+// BESUCHER ZÄHLER
+// ========================
+
+var besucherRef = ref(db, "besucher");
+
+// sessionStorage ist wie localStorage — aber wird beim Schließen des Tabs gelöscht
+// So zählt jeder Besucher nur EINMAL pro Sitzung
+if (!sessionStorage.getItem("gezaehlt")) {
+
+    // runTransaction erhöht den Zähler sicher
+    runTransaction(besucherRef, function(wert) {
+        return (wert || 0) + 1;
+    });
+
+    // Merken dass wir schon gezählt haben
+    sessionStorage.setItem("gezaehlt", "ja");
+}
+
+// Live-Anzeige der Besucherzahl
+onValue(besucherRef, function(snapshot) {
+    var zahl = snapshot.val() || 0;
+    document.getElementById("besucher-zahl").textContent = zahl.toLocaleString("de-DE");
+    // toLocaleString("de-DE") formatiert die Zahl z.B. 1.234 statt 1234
+});
+
+// ========================
 // LIKE BUTTON MIT FIREBASE
 // ========================
 

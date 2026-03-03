@@ -335,6 +335,16 @@ h1 {
 }
 
 /* ======================== */
+/* BESUCHER ZÄHLER          */
+/* ======================== */
+#besucher-zaehler {
+    color: rgba(221, 160, 221, 0.7);  /* plum, etwas transparent */
+    font-size: 14px;
+    margin-top: 5px;
+    letter-spacing: 1px;
+}
+
+/* ======================== */
 /* ÜBER MICH SEKTION        */
 /* ======================== */
 #ueber-mich {
